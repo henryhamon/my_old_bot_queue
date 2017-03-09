@@ -1,0 +1,57 @@
+#!/usr/bin/env ruby
+
+require 'rubygems'
+require 'simpleconsole'
+require File.expand_path(File.dirname(__FILE__) + '/../lib/kraken.rb')
+
+class Controller < SimpleConsole::Controller
+  params :int => { :b => :brand_id}
+
+  def default
+
+    if params[:brand_id]
+      force_track(params[:brand_id])
+    else
+      from_pending_for_processing
+    end
+
+    rescue Errno::ECONNREFUSED => exception
+      log_here "[CONNECTION_REFUSED] [#{exception.message}]"
+    rescue Errno::ECONNRESET => exception
+      # TODO para destravar
+      log_here "[CONNECTION_RESETED] [#{exception.message}]"
+    rescue OpenURI::HTTPError => exception
+      log_here "[HTTP_ERROR] [#{exception.message}]"
+    rescue StandardError => exception
+      log_here "[UNKNOWN_ERROR] [#{exception.message}]"
+    rescue SystemExit => exception
+  end
+
+  def force_track(id)
+    specific_job(id)
+  end
+
+  def from_pending_for_processing
+    job
+  end
+
+  protected
+  # Imprime no log (puts)
+  def log_here(msg)
+    puts "[#{Time.now}] #{msg}"
+  end
+
+  def job
+    log_here "[STARTING]"
+    roboto = Kraken.new
+    puts 'start all'
+    roboto.start_all
+  end
+
+end
+
+class View < SimpleConsole::View
+end
+
+SimpleConsole::Application.run(ARGV, Controller, View)
+

@@ -1,0 +1,12 @@
+# Bot Queue (codinome: Kraken)
+
+[Kraken](http://terminator.wikia.com/wiki/Kraken) robô de agendamento de Queue
+
+* Autor: Henry Hamon
+* Copyright: (c) 2011
+
+## Instalação
+      gem install active_record
+
+"_ recreate the Cyberdyne technology to world domination_"
+

@@ -1,0 +1,7 @@
+master:
+  adapter: postgresql
+  host: "184.106.170.53"
+  database: 
+  username: postgres
+  password: toor
+  port: 5432
